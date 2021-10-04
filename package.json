@@ -1,0 +1,23 @@
+{
+  "name": "node-pixel-font",
+  "version": "1.0.0",
+  "description": "NodeJS library written with typescript to draw BitmapFont into node-canvas.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -p tsconfig.json",
+    "watch": "tsc --watch -p tsconfig.json",
+    "execute": "node --experimental-modules --max_old_space_size=2048 ./dist/index.js",
+    "run": "npm run-script build && npm run-script execute"
+  },
+  "author": "Jean-François Desgagné",
+  "license": "MIT",
+  "dependencies": {
+    "canvas": "^2.8.0",
+    "xml2js": "^0.4.23"
+  },
+  "devDependencies": {
+    "@types/node": "^16.9.4",
+    "typescript": "^4.4.3"
+  }
+}
