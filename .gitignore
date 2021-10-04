@@ -1,4 +1,4 @@
 node_modules/
-dist/
-*.js
 example/output/
+example/*.js
+src/*.js

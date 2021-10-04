@@ -2,7 +2,7 @@
   "name": "node-pixel-font",
   "version": "1.0.0",
   "description": "NodeJS library written with typescript to draw BitmapFont into node-canvas.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc -p tsconfig.json",
