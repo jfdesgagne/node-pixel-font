@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var node_pixel_font_1 = require("node-pixel-font");
+var canvas = document.createElement('canvas');
+canvas.width = 100;
+canvas.height = 100;
+var context = canvas.getContext('2d');
+context.fillStyle = '#ff0000';
+context.fillRect(0, 0, 100, 100);
+var font = new node_pixel_font_1.NodePixelFont('html');
+font.draw(canvas, 'abc', node_pixel_font_1.HorizontalAlignment.Center, node_pixel_font_1.VerticalAlignment.Middle, '#00FF00', 1);
+document.appendChild(canvas);

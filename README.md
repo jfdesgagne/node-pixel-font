@@ -1,11 +1,11 @@
 # node-pixel-font
 Library that loads [BitmapFont](https://www.angelcode.com/products/bmfont/) and draw text in a [node-canvas](https://www.npmjs.com/package/canvas).
 
-## Dependencies
+# Dependencies
 - [node-canvas](https://www.npmjs.com/package/canvas)
 - [xml2js](https://www.npmjs.com/package/xml2js)
 
-## Usage
+# Usage
 Install the library
 ```
 npm install --save node-pixel-font
@@ -19,28 +19,30 @@ Include the code
     font.draw(canvas, 'Hello World !', 10, 20, '#00FF00')
 ```
 
-## API
+# API
 
-### loadFont
+## loadFont()
  ```typescript
  loadFont(pngFilePath: string, xmlFilePath: string): Promise<void>
  ```
 
 load the font in memory. `draw()` needs to be called after awaiting on `loadFont()`
 
-### draw
+## draw()
  ```typescript
- draw(canvas: Canvas, text: string, x: number, y: number, color: string = '#FFFFFF', scale: number = 1): void
+ draw(canvas: Canvas, text: string, x: number | HorizontalAlignment, y: number | VerticalAlignment, color: string = '#FFFFFF', scale: number = 1): void
  ```
 
 Draw the specified text into the provided canvas. Can specify the destination X and Y of the text, as well as color and scale factor.
 
-## Run the example
-```
-cd example
-ts-node  ./example.ts
-```
+# Alignment
+You can align the text manually, by providing x, y as pixel number, or by providing either (or both) x and y as alignment using `HorizontalAlignment` and `VerticalAlignment`
 
-Observe the result by opening the `example/output/image.png` image.
-
-*if ts-node is not installed, you can installed it via `npm install -g ts-node`*
+```typescript
+import { NodePixelFont, HorizontalAlignment, VerticalAlignment } from 'node-pixel-font'
+import { createCanvas } from 'canvas'
+const canvas = createCanvas(64, 32)
+const pixelFont = new NodePixelFont()
+pixelFont.loadFont('path/to/file.png', 'path/to/file.xml')
+pixelFont.draw(canvas, 'some text', HorizontalAlignment.Center, VerticalAlignment.Middle, '#FF0000')
+```

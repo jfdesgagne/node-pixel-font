@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NodePixelFont = void 0;
+exports.NodePixelFont = exports.VerticalAlignment = exports.HorizontalAlignment = void 0;
 var canvas_1 = require("canvas");
 var fs = require("fs");
 var xml2js_1 = require("xml2js");
@@ -50,6 +50,18 @@ var readFile = function (path) { return new Promise(function (resolve, reject) {
         }
     });
 }); };
+var HorizontalAlignment;
+(function (HorizontalAlignment) {
+    HorizontalAlignment["Left"] = "left";
+    HorizontalAlignment["Center"] = "center";
+    HorizontalAlignment["Right"] = "right";
+})(HorizontalAlignment = exports.HorizontalAlignment || (exports.HorizontalAlignment = {}));
+var VerticalAlignment;
+(function (VerticalAlignment) {
+    VerticalAlignment["Top"] = "top";
+    VerticalAlignment["Middle"] = "middle";
+    VerticalAlignment["Bottom"] = "bottom";
+})(VerticalAlignment = exports.VerticalAlignment || (exports.VerticalAlignment = {}));
 var NodePixelFont = /** @class */ (function () {
     function NodePixelFont() {
         var _this = this;
@@ -88,15 +100,94 @@ var NodePixelFont = /** @class */ (function () {
                 }
             });
         }); };
-        this.draw = function (canvas, text, x, y, color, scale) {
+        // protected getCanvasRect = (canvas: Canvas | HTMLCanvasElement, text: string, initialX: number | HorizontalAlignment, initialY: number | VerticalAlignment, scale: number, rect: Rect = { x: 0, y: 0, width: 0, height: 0 }) => {
+        //     const width = text
+        //         .split('')
+        //         .map(charStr => this.chars[charStr] ? this.chars[charStr].width * scale : 0)
+        //         .reduce((prev, cur) => prev + cur)
+        //     const height = Math.max(
+        //         ...text
+        //             .split('')
+        //             .map(charStr => this.chars[charStr] ? this.chars[charStr].rect[3] * scale : 0))
+        //     const y = Math.min(
+        //         ...text
+        //             .split('')
+        //             .map(charStr => this.chars[charStr] ? this.chars[charStr].offset[1] * scale : 0))
+        //     const canvasRect: Rect = {
+        //         width,
+        //         height,
+        //         y,
+        //         x: 0
+        //     }
+        //     return canvasRect
+        // }
+        this.getPositionRect = function (canvas, text, initialX, initialY, scale, rect) {
+            if (rect === void 0) { rect = { x: 0, y: 0, width: 0, height: 0 }; }
+            var width = text
+                .split('')
+                .map(function (charStr) { return _this.chars[charStr] ? _this.chars[charStr].width * scale : 0; })
+                .reduce(function (prev, cur) { return prev + cur; });
+            var height = Math.max.apply(Math, text
+                .split('')
+                .map(function (charStr) { return _this.chars[charStr] ? _this.chars[charStr].rect[3] * scale : 0; }));
+            var offsetY = Math.min.apply(Math, text
+                .split('')
+                .map(function (charStr) { return _this.chars[charStr] ? _this.chars[charStr].offset[1] * scale : 0; }));
+            var x = 0, y = 0;
+            if (typeof initialX === 'string') {
+                switch (initialX) {
+                    case HorizontalAlignment.Center:
+                        x = ((rect.width || canvas.width) - width) / 2;
+                        break;
+                    case HorizontalAlignment.Right:
+                        x = (rect.width || canvas.width) - width;
+                        break;
+                    case HorizontalAlignment.Left:
+                        x = rect.x;
+                }
+            }
+            else {
+                x = initialX;
+            }
+            if (typeof initialY === 'string') {
+                switch (initialY) {
+                    case VerticalAlignment.Middle:
+                        y = ((rect.height || canvas.height) - height) / 2 - offsetY;
+                        break;
+                    case VerticalAlignment.Bottom:
+                        y = (rect.height || canvas.height) - height - offsetY;
+                        break;
+                    case VerticalAlignment.Top:
+                        y = -offsetY;
+                }
+            }
+            else {
+                y = initialY;
+            }
+            return {
+                width: Math.round(width),
+                height: Math.round(height),
+                x: Math.round(x + rect.x),
+                y: Math.round(y + rect.y)
+            };
+        };
+        this.draw = function (canvas, text, initialX, initialY, color, scale, rect) {
             if (color === void 0) { color = '#FFFFFF'; }
             if (scale === void 0) { scale = 1; }
             return __awaiter(_this, void 0, void 0, function () {
+                var positionRect, x, y;
                 var _this = this;
                 return __generator(this, function (_a) {
-                    if (!this.bufferCanvas || this.bufferCanvas.width !== canvas.width || this.bufferCanvas.height !== canvas.height) {
+                    if (!this.bufferCanvas) {
                         this.bufferCanvas = (0, canvas_1.createCanvas)(canvas.width, canvas.height);
                     }
+                    else {
+                        this.bufferCanvas.width = canvas.width;
+                        this.bufferCanvas.height = canvas.height;
+                    }
+                    positionRect = this.getPositionRect(canvas, text, initialX, initialY, scale, rect);
+                    console.log('positionRect', positionRect);
+                    x = positionRect.x, y = positionRect.y;
                     text.split('').forEach(function (charStr) {
                         var char = _this.chars[charStr];
                         if (char) {
@@ -104,7 +195,7 @@ var NodePixelFont = /** @class */ (function () {
                             x += char.width * scale;
                         }
                     });
-                    return [2 /*return*/];
+                    return [2 /*return*/, positionRect];
                 });
             });
         };

@@ -4,10 +4,11 @@
         "target": "ES5",
         "outDir": "./dist",
         "rootDir": "./src",
-        "declaration": true
+        "declaration": true,
+        "types": ["jest", "node"]
     },
-    "exclude": [
-        "./node_modules/",
-        "./example/example.ts"
+    "include": [
+        "src/index.ts",
+        "src/example/example.ts"
     ]
 }
