@@ -2,13 +2,16 @@
     "compilerOptions": {
         "module": "commonjs",
         "target": "ES5",
-        "outDir": "./dist",
+        "outDir": "./lib",
         "rootDir": "./src",
         "declaration": true,
-        "types": ["jest", "node"]
+        "types": ["jest", "node"],
+        "typeRoots": ["./types", "./node_modules/@types"]
     },
     "include": [
-        "src/index.ts",
-        "src/example/example.ts"
+        "src/node-pixel-font.ts",
+        "src/types.ts",
+        "src/base-pixel-font.ts",
+        "src/html-pixel-font.ts"
     ]
 }
