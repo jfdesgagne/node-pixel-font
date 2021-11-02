@@ -8,10 +8,8 @@
         "types": ["jest", "node"],
         "typeRoots": ["./types", "./node_modules/@types"]
     },
-    "include": [
-        "src/node-pixel-font.ts",
-        "src/types.ts",
-        "src/base-pixel-font.ts",
-        "src/html-pixel-font.ts"
+    "exclude": [
+        "src/__examples__",
+        "src/__tests__"
     ]
 }
