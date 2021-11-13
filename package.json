@@ -7,6 +7,7 @@
     "test": "jest",
     "test:update": "jest --updateSnapshot",
     "build": "npm run-script test && tsc -p tsconfig.json",
+    "watch": "tsc --watch -p tsconfig.json",
     "dev": "webpack-dev-server --mode development --open --config webpack.html.dev.config.js"
   },
   "author": "Jean-François Desgagné",

@@ -140,7 +140,7 @@ export class PixelFont implements IPixelFont {
 
         // Draw the char in the real context
         context.drawImage(
-            bufferContext.canvas,
+            this.bufferCanvas,
             charX,
             charY,
             charWidth,

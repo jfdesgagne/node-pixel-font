@@ -32,6 +32,7 @@ export interface ContextLike {
     clearRect(x: number, y: number, w: number, h: number): void;
     canvas: CanvasLike;
     getImageData(x: number, y: number, width: number, height: number): ImageData;
+    putImageData(image: ImageData, x: number, y: number): void;
 }
 export interface CanvasLike {
     width: number;
